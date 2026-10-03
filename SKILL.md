@@ -1,6 +1,6 @@
 ---
 name: insigoo-sag-architect
-version: 1.1.0
+version: 1.1.1
 description: 社会组织 SAG 知识库架构师 — 帮助社会组织搭建专属 SAG 知识库，按公益项目管理-披露标准编译历史资料，并基于 SIA 标准诊断组织知识、给出知识管理优化建议。适用于：搭建组织知识库、设计知识库索引系统、历史资料编译整理、公益项目知识诊断、组织知识管理优化。本技能不提供文件可视化看板，聚焦"建库 + 编译 + 诊断"三件事。
 author: insigoo · 广州市因思阁咨询有限公司
 trigger_keywords:
@@ -32,20 +32,20 @@ tags:
   - 披露标准
 disable-model-invocation: true
 # 本技能已自带全部必要资源（references/ 目录：LLM Wiki 标准、三层索引、wiki 骨架、
-# 15 样本集、GDT-Core 设计），可独立安装运行；能力三「诊断」由 insigoo-sia 提供。以下为可选增强依赖：
-# 安装后部分能力增强；建库、编译两件事不装也能完整跑通，诊断需配合 insigoo-sia。
+# 15 样本集、GDT-Core 设计），可独立安装运行；能力三「诊断」由 insigoo-sia（开源包 insigoo-sia-open，v3.0.0+）提供。以下为可选增强依赖：
+# 安装后部分能力增强；建库、编译两件事不装也能完整跑通，诊断需配合 insigoo-sia（github.com/ericyueric/insigoo-sia-open）。
 # 来源标注：[GH] = 有公开仓库可自行获取；[本地] = insigoo 内部技能，当前未开源。
 optional_dependencies:
   - insigoo-sag     # [可选][GH] SAG 引擎部署脚本 + 知识库质量巡检（Lint）（能力一技术底座）→ github.com/ericyueric/insigoo-sag
   - insigoo-knowledge-base    # [可选][GH] LLM Wiki 与三层索引扩展标准（本技能已内联核心）→ github.com/ericyueric/insigoo-knowledge-base
-  - insigoo-sia               # [可选][GH] 能力三「诊断」执行引擎：SIA L1 逻辑自洽体检（v1.2.0+）→ github.com/ericyueric/insigoo-sia
+  - insigoo-sia               # [可选][GH] 能力三「诊断」执行引擎：SIA L1 逻辑自洽体检 + L2 指标量化（v3.0.0+）→ github.com/ericyueric/insigoo-sia-open（技能名仍为 insigoo-sia）
   - GDTcreater                # [可选][本地] GDT-DB 六件套向导，未开源；本技能 2.5.4 已含 KB 映射卡，无需依赖
 ---
 
 # insigoo-sag-architect v1.1 — 社会组织 SAG 知识库架构师
 
 > 帮社会组织把散落的历史资料，变成"建得起来、查得到、管得住、说得清"的专属 SAG 知识库。
-> 三件事：**建库（SAG）× 编译（公益项目-披露标准 + GDT-Core 要素+纪律）× 诊断（SIA）**（诊断由开源技能 `insigoo-sia` 执行，本技能负责编排）。
+> 三件事：**建库（SAG）× 编译（公益项目-披露标准 + GDT-Core 要素+纪律）× 诊断（SIA）**（诊断由开源技能 `insigoo-sia` 执行，开源包 `insigoo-sia-open` v3.0.0+，本技能负责编排）。
 
 ---
 
@@ -59,7 +59,7 @@ optional_dependencies:
 |-----------|--------------|------|
 | 搭建 SAG 知识库 | `insigoo-sag` 技能 + `insigoo-knowledge-base` 标准 | LLM Wiki 框架 + SAG 语义引擎 + 三层索引 |
 | 编译历史资料 | `insigoo-knowledge-base` 标准 + `GDTcreater`（未开源，本技能不依赖） 技能 | 公益项目-披露分类 + **GDT-Core 要素结构+纪律（GDT-KB 适配）** |
-| 诊断组织知识 | `insigoo-sia` 技能（L1，v1.2.0+） | 逻辑自洽体检（L1） |
+| 诊断组织知识 | `insigoo-sia` 技能（L1；v3.0.0+ 起 L2 指标量化亦随开源包开放） | 逻辑自洽体检（L1） |
 
 ---
 
@@ -328,7 +328,7 @@ optional_dependencies:
 
 ### 3.1 调用约定
 
-加载 `insigoo-sia` 技能执行（能力三的执行引擎；未安装时提示用户安装 `insigoo-sia`，不另行内联副本），把评估对象从"单个项目方案"扩展为"组织整体知识资产"：
+加载 `insigoo-sia` 技能执行（能力三的执行引擎，开源包 `github.com/ericyueric/insigoo-sia-open` v3.0.0+；未安装时提示用户安装 `insigoo-sia`，不另行内联副本），把评估对象从"单个项目方案"扩展为"组织整体知识资产"：
 
 - **L1 逻辑自洽层**：诊断组织各项目的"投入→活动→产出→成果→影响"链条在知识库中是否完整、有无断链/伪因果；重点看 `proposal`→`implementation`→`monitoring`→`evaluation` 四类资料是否闭环。
 
@@ -337,7 +337,7 @@ optional_dependencies:
 1. **抽样**：从 `evaluation` / `monitoring` 类抽取 2–3 个代表项目，连同其 `proposal` 一起送入 SIA。
 2. **体检**：跑 L1 完整体检（或用户要快速则 L1 快速自检），输出逻辑链断点 + 三大风险提示。
 3. **组织级归纳**：把单项目结论上升到组织层面——哪些知识区普遍薄弱、哪些披露项系统性缺失。
-> 注：本技能通过 `insigoo-sia` 执行 SIA L1。若用户需要指标量化定级（L2）或价值核算（L3），以开源 `insigoo-sia`（MIT）技能说明为准。
+> 注：本技能通过 `insigoo-sia` 执行 SIA L1。自 v3.0.0 起，L2 指标量化层已随开源包全量开放（含评分锚点、证据 A–E 五级定级、五类参考指标集），L3 社会价值评估以方法草案 + 参考实现 + 验证案例形式开放；更高层级口径一律以开源包 `insigoo-sia-open`（MIT）为准。
 
 ### 3.3 输出物
 
@@ -400,14 +400,14 @@ optional_dependencies:
 | SAG 语义检索 API 调用（/health、/api/sources、/search、/ingest 端点与示例） | 本技能 `references/sag_api.md`（完整部署脚本见可选依赖 `insigoo-sag`） |
 | GDT-Core 双层（要素+纪律）、双模式、双适配设计 | 本技能 `references/gdt_design.md` |
 | GDT 六件套、v1.1 负面清单/判定表（GDT-DB 增强） | 可选依赖 `GDTcreater`（**未开源**，insigoo 内部技能）/ `insigoo-knowledge-base`（含 GDT 标准提案，开源） |
-| SIA L1 逻辑自洽体检 | 可选依赖 `insigoo-sia`（开源 MIT，v1.2.0+；L2/L3 以该技能为准） |
+| SIA L1 逻辑自洽体检（+ L2 指标量化，v3.0.0+） | 可选依赖 `insigoo-sia`（开源 MIT，v3.0.0+；L3 方法草案已开放，以该技能为准） |
 
 > **可选依赖来源对照**（避免按图索骥扑空）：
 > | 依赖技能名 | 公开仓库 | 状态 |
 > |---|---|---|
 > | `insigoo-sag` | `github.com/ericyueric/insigoo-sag` | ✅ 开源 MIT |
 > | `insigoo-knowledge-base` | `github.com/ericyueric/insigoo-knowledge-base` | ✅ 开源 MIT（v2.0.0 通用版） |
-> | `insigoo-sia` | `github.com/ericyueric/insigoo-sia` | ✅ 开源 MIT（v1.2.0+） |
+> | `insigoo-sia` | `github.com/ericyueric/insigoo-sia-open` | ✅ 开源 MIT（v3.0.0+：L1+L2 全开源，L3 方法草案开放） |
 > | `GDTcreater` | 无 | ⚠️ insigoo 内部技能，未开源；本技能不依赖它 |
 >
 | 15 示范任务包集 | 本技能 `references/gdt_kb_samples/` |
