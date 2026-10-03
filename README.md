@@ -1,10 +1,10 @@
-# insigoo-sag-architect — 社会组织 SAG 知识库架构师（开源版 v1.1.0 · MIT）
+# insigoo-sag-architect — 社会组织 SAG 知识库架构师（开源版 v1.1.1 · MIT）
 
 帮社会组织把散落的历史资料，变成"建得起来、查得到、管得住、说得清"的专属 SAG 知识库。
 
 三件事：**建库（SAG）× 编译（公益项目-披露标准 + GDT-Core 要素+纪律）× 诊断（SIA）**。
 
-> 其中「诊断（SIA）」由开源技能 **`insigoo-sia`**（MIT，v1.2.0+）提供，本技能负责编排。SIA 真源在 `insigoo-sia`，两边不重复维护。
+> 其中「诊断（SIA）」由开源技能 **`insigoo-sia`**（MIT，v3.0.0+）提供，本技能负责编排。SIA 真源仓库为 `github.com/ericyueric/insigoo-sia-open`（技能名仍为 `insigoo-sia`），两边不重复维护。
 
 ---
 
@@ -27,7 +27,7 @@
 |------|---------|---------|
 | `insigoo-sag` | SAG 引擎完整部署脚本 + 知识库质量巡检（Lint）（能力一技术底座） | 开源 `github.com/ericyueric/insigoo-sag` |
 | `insigoo-knowledge-base` | LLM Wiki 与三层索引扩展标准（本技能已内联核心） | 开源 `github.com/ericyueric/insigoo-knowledge-base` |
-| `insigoo-sia` | **能力三「诊断」的执行引擎**：SIA L1 逻辑自洽体检（7 原则 + 三A三力四维 + 三模式 + 10 项快检 + 成熟度）。L2 指标量化 / L3 价值核算属更高层级，见该技能说明 | 开源 `github.com/ericyueric/insigoo-sia`（v1.2.0+，MIT） |
+| `insigoo-sia` | **能力三「诊断」的执行引擎**：SIA L1 逻辑自洽体检（7 原则 + 三A三力四维 + 三模式 + 10 项快检 + 成熟度）。v3.0.0 起 L2 指标量化层全开源，L3 社会价值评估以方法草案 + 参考实现 + 验证案例开放 | 开源 `github.com/ericyueric/insigoo-sia-open`（v3.0.0+，MIT） |
 | `GDTcreater` | GDT-DB 六件套向导（本技能 2.5.4 已含 KB 映射卡，可手动建包） | ⚠️ 未开源（insigoo 内部技能），本技能不依赖 |
 
 
@@ -39,7 +39,7 @@
    - 用户级：`~/.workbuddy/skills/insigoo-sag-architect/`
    - 或项目级：`<项目>/.workbuddy/skills/insigoo-sag-architect/`
 2. 重启 WorkBuddy 或刷新技能索引。
-3. （可选）如需增强能力，另行安装上述可选依赖技能；**若要做「知识诊断」，请安装 `insigoo-sia`**。
+3. （可选）如需增强能力，另行安装上述可选依赖技能；**若要做「知识诊断」，请安装 `insigoo-sia`（开源包 `github.com/ericyueric/insigoo-sia-open`）**。
 4. 在对话中说出触发词（如"帮我搭知识库""做 SAG 知识库""按披露标准整理资料""SIA 诊断"）即加载本技能。
 
 ---
@@ -50,7 +50,7 @@
 |---|------|---------|----------------|
 | 能力一 | 搭建组织 SAG 知识库 | LLM Wiki + 三层索引 + 维护规范 | 否（SAG 部署指引内联；完整脚本来自可选依赖） |
 | 能力二 | 按公益披露标准编译历史资料 | 7 类索引 + 受治理查询场景索引（GDT-KB 六要素+六约束）+ 编译标准 | 否（15 样本与 GDT 设计自带） |
-| 能力三 | 基于 SIA 诊断组织知识 | 知识健康度卡片 + 优化建议（P0/P1/P2） | **是（需 `insigoo-sia` v1.2.0+，L1）** |
+| 能力三 | 基于 SIA 诊断组织知识 | 知识健康度卡片 + 优化建议（P0/P1/P2） | **是（需 `insigoo-sia` v3.0.0+，L1）** |
 
 ---
 
@@ -60,7 +60,7 @@
 1. [建库]  按 references/wiki_structure.md 建 wiki/ 骨架 → 套 llm_wiki_standard.md 规范
 2. [编译]  资产盘点（7 类）→ 逐类重写为 LLM Wiki → 填 three_layer_index.md（第 3 层用 GDT-KB 契约）
 3. [索引]  高频查询场景抄 references/gdt_kb_samples/ 模板，写受治理查询契约
-4. [诊断]  抽代表项目 → 调用 insigoo-sia 跑 L1 逻辑自洽体检 → 出知识健康度卡片与整改清单
+4. [诊断]  抽代表项目 → 调用 insigoo-sia 跑 L1 逻辑自洽体检 → 出知识健康度卡片与整改清单（需 v3.0.0+，见 insigoo-sia-open）
 5. [验收]  自然语言提问能正确召回；披露缺口与知识盲区可见、可整改
 ```
 
@@ -87,7 +87,7 @@ insigoo-sag-architect/
 
 ## 六、授权
 
-免费开源技能，采用 **MIT 许可**：可自由使用、修改、分发与商用，须保留版权与许可声明。SIA 由开源技能 `insigoo-sia`（MIT）提供，本技能不再内联 SIA 副本。
+免费开源技能，采用 **MIT 许可**：可自由使用、修改、分发与商用，须保留版权与许可声明。SIA 由开源技能 `insigoo-sia`（MIT，开源包 `insigoo-sia-open` v3.0.0+）提供，本技能不再内联 SIA 副本。
 
 *insigoo 因思阁 · 让每一个社会组织都有自己的、说得清也管得住的 SAG 知识库*
 
